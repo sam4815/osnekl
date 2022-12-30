@@ -1,0 +1,3 @@
+(library
+ (name osnekl)
+ (libraries notty notty.unix))

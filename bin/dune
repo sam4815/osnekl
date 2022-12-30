@@ -1,0 +1,4 @@
+(executable
+ (public_name osnekl)
+ (name main)
+ (libraries osnekl))
