@@ -71,6 +71,9 @@ let rec loop term (e, t) dim =
   | `Key (`Arrow `Right, []) ->
       Game.set_direction !game Right;
       loop term (event term, t) dim
+  | `Key (`Enter, []) | `Key (`ASCII ' ', _) ->
+      Game.step !game;
+      loop term (event term, t) dim
   | `Key (`ASCII 'r', _) ->
       game :=
         Game.create ~height:(Game.height !game) ~width:(Game.width !game)
