@@ -27,6 +27,13 @@ let outline () =
   in
   grid [ [ a; hbar; b ]; [ vbar; I.void (w - 2) 1; vbar ]; [ d; hbar; c ] ]
 
+let score () =
+  let score = string_of_int (Game.score !game) in
+  let box = I.string A.(fg lightgreen) score in
+  let top_margin = (Game.height !game - I.height box) / 2 in
+  let left_margin = Game.width !game - I.width box in
+  I.pad ~t:top_margin ~l:left_margin box
+
 let draw_block (_, h) { Position.row; col } (color : A.color) =
   let dot : image = I.uchar A.(fg color) (Uchar.of_int 0x25cf) 1 1 in
   I.pad ~t:(h - row - 2) ~l:((col * 2) + 1) dot
@@ -48,7 +55,7 @@ let draw_game (w, h) =
   let snake = draw_snake (w, h) (Game.snake !game) in
   I.(snake </> apple)
 
-let render (w, h) = I.(outline () </> draw_game (w, h))
+let render (w, h) = I.(outline () </> score () </> draw_game (w, h))
 let timer () = Lwt_unix.sleep 0.1 >|= fun () -> `Timer
 
 let event term =

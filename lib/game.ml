@@ -4,6 +4,7 @@ type t = {
   mutable snake : Snake.t;
   mutable apple : Apple.t;
   mutable game_state : Game_state.t;
+  mutable score : int;
   height : int;
   width : int;
   amount_to_grow : int;
@@ -23,7 +24,15 @@ let create ~height ~width ~initial_snake_length ~amount_to_grow =
     | Some apple -> apple
   in
   let game =
-    { height; width; snake; apple; amount_to_grow; game_state = In_progress }
+    {
+      height;
+      width;
+      snake;
+      apple;
+      amount_to_grow;
+      game_state = In_progress;
+      score = 0;
+    }
   in
   match
     List.exists (Snake.locations snake) ~f:(fun position ->
@@ -32,6 +41,7 @@ let create ~height ~width ~initial_snake_length ~amount_to_grow =
   | true -> failwith "unable to create initial snake"
   | false -> game
 
+let score t = t.score
 let width t = t.width
 let height t = t.height
 let snake t = t.snake
@@ -61,6 +71,7 @@ let step t =
             | None -> t.game_state <- Win
             | Some apple ->
                 t.apple <- apple;
+                t.score <- t.score + 1;
                 t.snake <- Snake.grow_over_next_steps snake t.amount_to_grow))
 
 module For_testing = struct
