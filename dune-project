@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (source
- (github sam4815/sam4815))
+ (github sam4815/osnekl))
 
 (authors "sam4815")
 
@@ -13,7 +13,7 @@
 
 (license LICENSE)
 
-(documentation https://url/to/documentation)
+(documentation https://github.com/sam4815/osnekl)
 
 (package
  (name osnekl)

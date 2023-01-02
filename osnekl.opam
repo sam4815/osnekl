@@ -4,9 +4,9 @@ synopsis: "Snake for the terminal"
 maintainer: ["sam4815"]
 authors: ["sam4815"]
 license: "LICENSE"
-homepage: "https://github.com/sam4815/sam4815"
-doc: "https://url/to/documentation"
-bug-reports: "https://github.com/sam4815/sam4815/issues"
+homepage: "https://github.com/sam4815/osnekl"
+doc: "https://github.com/sam4815/osnekl"
+bug-reports: "https://github.com/sam4815/osnekl/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.6"}
@@ -26,4 +26,4 @@ build: [
     "@doc" {with-doc}
   ]
 ]
-dev-repo: "git+https://github.com/sam4815/sam4815.git"
+dev-repo: "git+https://github.com/sam4815/osnekl.git"
