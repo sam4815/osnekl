@@ -71,6 +71,11 @@ let rec loop term (e, t) dim =
   | `Key (`Arrow `Right, []) ->
       Game.set_direction !game Right;
       loop term (event term, t) dim
+  | `Key (`ASCII 'r', _) ->
+      game :=
+        Game.create ~height:(Game.height !game) ~width:(Game.width !game)
+          ~initial_snake_length:3 ~amount_to_grow:3;
+      loop term (event term, t) dim
   | `Timer ->
       Term.image term (render dim) >>= fun () -> loop term (e, timer ()) dim
   | `Mouse ((`Press _ | `Drag), (_, _), _) -> loop term (event term, t) dim
