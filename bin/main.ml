@@ -59,16 +59,16 @@ let event term =
 let rec loop term (e, t) dim =
   e <?> t >>= function
   | `End | `Key (`Escape, []) -> Lwt.return_unit
-  | `Key (`Arrow `Up, []) ->
+  | `Key (`Arrow `Up, []) | `Key (`ASCII 'w', _) ->
       Game.set_direction !game Up;
       loop term (event term, t) dim
-  | `Key (`Arrow `Down, []) ->
+  | `Key (`Arrow `Down, []) | `Key (`ASCII 's', _) ->
       Game.set_direction !game Down;
       loop term (event term, t) dim
-  | `Key (`Arrow `Left, []) ->
+  | `Key (`Arrow `Left, []) | `Key (`ASCII 'a', _) ->
       Game.set_direction !game Left;
       loop term (event term, t) dim
-  | `Key (`Arrow `Right, []) ->
+  | `Key (`Arrow `Right, []) | `Key (`ASCII 'd', _) ->
       Game.set_direction !game Right;
       loop term (event term, t) dim
   | `Key (`Enter, []) | `Key (`ASCII ' ', _) ->
