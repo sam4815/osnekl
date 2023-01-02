@@ -15,7 +15,7 @@ let rec step_game () =
 let grid xxs = xxs |> List.map I.hcat |> I.vcat
 
 let outline () =
-  let w, h = (Game.width !game * 2, Game.height !game) in
+  let w, h = ((Game.width !game * 2) + 2, Game.height !game + 2) in
   let chr x = I.uchar A.(fg lightred) x 1 1
   and hbar = I.uchar A.(fg lightred) (Uchar.of_int 0x2500) (w - 2) 1
   and vbar = I.uchar A.(fg lightred) (Uchar.of_int 0x2502) 1 (h - 2) in
@@ -89,8 +89,9 @@ let interface () =
   let term = Term.create () in
   let w, h = Term.size term in
   game :=
-    Game.create ~height:h ~width:(w / 2) ~initial_snake_length:3
-      ~amount_to_grow:3;
+    Game.create ~height:(h - 2)
+      ~width:((w - 1) / 2)
+      ~initial_snake_length:3 ~amount_to_grow:3;
   loop term (event term, timer ()) (w, h)
 
 let main () = Lwt.choose [ step_game (); interface () ]
