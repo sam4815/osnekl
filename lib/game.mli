@@ -5,6 +5,8 @@ type t [@@deriving sexp_of]
 val create :
   height:int -> width:int -> initial_snake_length:int -> amount_to_grow:int -> t
 
+val width : t -> int
+val height : t -> int
 val snake : t -> Snake.t
 val set_direction : t -> Direction.t -> unit
 val apple : t -> Apple.t
