@@ -14,11 +14,11 @@ let rec step_game () =
 
 let grid xxs = xxs |> List.map I.hcat |> I.vcat
 
-let outline attr t =
-  let w, h = Term.size t in
-  let chr x = I.uchar attr x 1 1
-  and hbar = I.uchar attr (Uchar.of_int 0x2500) (w - 2) 1
-  and vbar = I.uchar attr (Uchar.of_int 0x2502) 1 (h - 2) in
+let outline () =
+  let w, h = (Game.width !game, Game.height !game) in
+  let chr x = I.uchar A.(fg lightred) x 1 1
+  and hbar = I.uchar A.(fg lightred) (Uchar.of_int 0x2500) (w - 2) 1
+  and vbar = I.uchar A.(fg lightred) (Uchar.of_int 0x2502) 1 (h - 2) in
   let a, b, c, d =
     ( chr (Uchar.of_int 0x256d),
       chr (Uchar.of_int 0x256e),
@@ -34,11 +34,11 @@ let draw_block (_, h) { Position.row; col } (color : A.color) =
 let draw_snake (w, h) snake =
   let snake_locations : Position.t list = Snake.locations snake in
   let locations =
-    List.map (fun pos -> draw_block (w, h) pos A.lightgreen) snake_locations
+    List.map (fun pos -> draw_block (w, h) pos A.green) snake_locations
   in
   List.fold_left
     (fun a b -> I.(a </> b))
-    (draw_block (w, h) (Snake.head_location snake) A.green)
+    (draw_block (w, h) (Snake.head_location snake) A.yellow)
     locations
 
 let draw_apple (w, h) apple = draw_block (w, h) (Apple.location apple) A.red
@@ -48,7 +48,7 @@ let draw_game (w, h) =
   let snake = draw_snake (w, h) (Game.snake !game) in
   I.(snake </> apple)
 
-let render term (w, h) = I.(outline A.(fg lightred) term </> draw_game (w, h))
+let render (w, h) = I.(outline () </> draw_game (w, h))
 let timer () = Lwt_unix.sleep 0.1 >|= fun () -> `Timer
 
 let event term =
@@ -72,12 +72,10 @@ let rec loop term (e, t) dim =
       Game.set_direction !game Right;
       loop term (event term, t) dim
   | `Timer ->
-      Term.image term (render term dim) >>= fun () ->
-      loop term (e, timer ()) dim
+      Term.image term (render dim) >>= fun () -> loop term (e, timer ()) dim
   | `Mouse ((`Press _ | `Drag), (_, _), _) -> loop term (event term, t) dim
   | `Resize dim ->
-      Term.image term (render term dim) >>= fun () ->
-      loop term (event term, t) dim
+      Term.image term (render dim) >>= fun () -> loop term (event term, t) dim
   | _ -> loop term (event term, t) dim
 
 let interface () =
