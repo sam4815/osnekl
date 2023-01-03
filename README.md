@@ -4,7 +4,7 @@
 
 ## About
 
-I've been working through Jane Street's [OCaml Workshop](https://github.com/sam4815/learn-ocaml-workshop). One of the projects - building a snake clone - uses [X11](https://en.wikipedia.org/wiki/X_Window_System) for rendering, which has been a little clunky to work with on a Mac, so I broke out my Snake clone into a standalone app using [Notty](https://github.com/pqwy/notty) to display the game in the terminal.
+Recently I've been working through Jane Street's [OCaml Workshop](https://github.com/sam4815/learn-ocaml-workshop). One of the projects involves building a Snake clone, and it uses [X11](https://en.wikipedia.org/wiki/X_Window_System) for rendering. Though it's relatively simple to work with, the graphics are a little clunky and it comes with an additional system dependency (e.g. XQuartz for Mac users), so I broke my Snake clone out into a standalone app and switched to using [Notty](https://github.com/pqwy/notty) to display the game in the terminal.
 
 ## Installation
 
@@ -17,6 +17,15 @@ Then play the game using
 ```
 _build/default/bin/main.exe
 ```
+
+## Controls
+<kbd>w</kbd><kbd>a</kbd><kbd>s</kbd><kbd>d</kbd> or <kbd>&#8593;</kbd><kbd>&#8592;</kbd><kbd>&#8595;</kbd><kbd>&#8594;</kbd> to move
+
+<kbd>Space</kbd> to accelerate
+
+<kbd>r</kbd> to restart
+
+<kbd>Esc</kbd> to quit
 
 ## Resources
 1. https://github.com/cedlemo/OCaml-Notty-introduction
