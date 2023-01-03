@@ -14,25 +14,31 @@ let rec step_game () =
 
 let grid xxs = xxs |> List.map I.hcat |> I.vcat
 
+let rec pad_right str i =
+  match String.length str with
+  | j when j = i -> str
+  | _ -> pad_right (str ^ " ") i
+
 let outline () =
+  let score = pad_right (string_of_int (Game.score !game)) 4 in
   let w, h = ((Game.width !game * 2) + 2, Game.height !game + 2) in
   let chr x = I.uchar A.(fg lightred) x 1 1
-  and hbar = I.uchar A.(fg lightred) (Uchar.of_int 0x2500) (w - 2) 1
-  and vbar = I.uchar A.(fg lightred) (Uchar.of_int 0x2502) 1 (h - 2) in
+  and hbar_top = I.uchar A.(fg lightred) (Uchar.of_int 0x2500) (w - 5) 1
+  and hbar_bottom = I.uchar A.(fg lightred) (Uchar.of_int 0x2500) (w - 2) 1
+  and vbar = I.uchar A.(fg lightred) (Uchar.of_int 0x2502) 1 (h - 3) in
   let a, b, c, d =
-    ( chr (Uchar.of_int 0x256d),
+    ( I.string A.(fg lightgreen) score,
       chr (Uchar.of_int 0x256e),
       chr (Uchar.of_int 0x256f),
       chr (Uchar.of_int 0x2570) )
   in
-  grid [ [ a; hbar; b ]; [ vbar; I.void (w - 2) 1; vbar ]; [ d; hbar; c ] ]
-
-let score () =
-  let score = string_of_int (Game.score !game) in
-  let box = I.string A.(fg lightgreen) score in
-  let top_margin = (Game.height !game - I.height box) / 2 in
-  let left_margin = Game.width !game - I.width box in
-  I.pad ~t:top_margin ~l:left_margin box
+  grid
+    [
+      [ a; hbar_top; b ];
+      [ I.void (w - 1) 1; I.uchar A.(fg lightred) (Uchar.of_int 0x2502) 1 1 ];
+      [ vbar; I.void (w - 2) 1; vbar ];
+      [ d; hbar_bottom; c ];
+    ]
 
 let draw_block (_, h) { Position.row; col } (color : A.color) =
   let dot : image = I.uchar A.(fg color) (Uchar.of_int 0x25cf) 1 1 in
@@ -55,7 +61,7 @@ let draw_game (w, h) =
   let snake = draw_snake (w, h) (Game.snake !game) in
   I.(snake </> apple)
 
-let render (w, h) = I.(outline () </> score () </> draw_game (w, h))
+let render (w, h) = I.(outline () </> draw_game (w, h))
 let timer () = Lwt_unix.sleep 0.1 >|= fun () -> `Timer
 
 let event term =
