@@ -1,4 +1,4 @@
 (executable
  (public_name osnekl)
  (name main)
- (libraries async base lwt notty notty.unix notty.lwt osnekl))
+ (libraries base lwt notty notty.unix notty.lwt osnekl))
