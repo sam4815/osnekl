@@ -18,6 +18,11 @@ Then play the game using
 _build/default/bin/main.exe
 ```
 
+To run tests,
+```
+dune runtest
+```
+
 ## Controls
 <kbd>w</kbd><kbd>a</kbd><kbd>s</kbd><kbd>d</kbd> or <kbd>&#8593;</kbd><kbd>&#8592;</kbd><kbd>&#8595;</kbd><kbd>&#8594;</kbd> to move
 
